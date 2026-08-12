@@ -1,0 +1,32 @@
+name: build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # No font installation step on purpose. This job proves the promise in
+      # the README: a fresh clone compiles with nothing but TeX Live, because
+      # the Latin fonts ship in fonts/ and fontset=auto falls back to Fandol,
+      # which TeX Live already carries. The build log will contain the
+      # "falling back to Fandol" warning, and that is expected here.
+      - name: Compile
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: |
+            main.tex
+            example-cute.tex
+          latexmk_use_xelatex: true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pdfs
+          path: |
+            main.pdf
+            example-cute.pdf

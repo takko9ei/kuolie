@@ -1,0 +1,239 @@
+# kuolie — 扩列图 LaTeX 模板
+
+一个中文扩列图 / 自我介绍卡片的 LaTeX 模板。信息结构照搬手写扩列图（身份卡 + 双栏「作品-角色」列表 + 通栏碎碎念），排版语言借自 [Awesome-CV](https://github.com/posquit0/Awesome-CV)：细线分隔、四级灰度、单一强调色、大量留白。
+
+内容和样式彻底分开——`content/` 下是纯数据，换风格一个字都不用改。
+
+| `paper=a4, cardstyle=flat, divider=rule` | `paper=square, cardstyle=soft, divider=hearts` |
+| :--: | :--: |
+| ![A4 预览](docs/preview-a4.png) | ![方图预览](docs/preview-square.png) |
+
+上面两张图用的是**同一份** `content/`，区别只有 `\kuoliesetup` 里的几个键。
+
+---
+
+## 快速开始
+
+### 本地
+
+需要 XeLaTeX（TeX Live / MacTeX / MiKTeX 任一即可，2021 或更新）。
+
+```bash
+git clone <your-repo-url> && cd kuolie
+latexmk            # 生成 main.pdf 和 example-cute.pdf
+```
+
+或者不用 latexmk：
+
+```bash
+xelatex main.tex
+```
+
+**必须用 XeLaTeX。** 用 pdfLaTeX 或 LuaLaTeX 会直接报错退出。`main.tex` 顶部有 `% !TeX program = xelatex` 魔法注释，多数编辑器会自动切换。
+
+### Overleaf
+
+1. 打包整个仓库上传（`New Project → Upload Project`），或者直接 `Import from GitHub`。
+2. 左上角 `Menu → Compiler` 选 **XeLaTeX**。
+3. `Main document` 选 `main.tex`。
+
+就这样，不需要装任何东西——西文字体在 `fonts/` 里跟着仓库走，中文字体 Overleaf 自带 Noto Sans CJK。
+
+---
+
+## 字体：唯一需要留心的地方
+
+**西文**用 Source Sans 3 和 Roboto，文件就在 `fonts/` 里，按**文件名**加载，不依赖系统安装、不依赖 fontconfig 缓存。这是「克隆下来就能编译」和「Overleaf 直接能用」的原因。
+
+**中文字体没法打包**（一个完整汉字字体 8–20 MB），所以模板会自己探测。`fontset=auto`（默认）按这个顺序找：
+
+| 顺序 | 字体 | 说明 |
+| --- | --- | --- |
+| 1 | Noto Sans CJK SC | 推荐。免费、跨平台、Overleaf 自带 |
+| 2 | Source Han Sans SC | 思源黑体，和 Noto 同源同形 |
+| 3 | Noto Sans SC | Google Fonts 版命名 |
+| 4 | PingFang SC | macOS 自带 |
+| 5 | Microsoft YaHei | Windows 自带 |
+| 6 | Hiragino Sans GB | 旧版 macOS |
+| 7 | **Fandol** | TeX Live 自带，零安装，保底 |
+
+前三个是跨平台的推荐项；4–6 只是「你机器上正好有就用」，模板不依赖它们。无论如何都会落到第 7 项，所以**在任何一台装了 TeX Live 的机器上都能编译成功**。
+
+### ⚠️ Fandol 缺日文汉字
+
+保底的 Fandol 只覆盖简体中文字符集。ACG 圈的角色名里常有日文汉字，比如「牛**込**里美」的込、「芥**樋**」的樋 —— 这些字在 Fandol 下会变成空白方块，编译时会有警告：
+
+```
+Class kuolie Warning: Falling back to the Fandol fonts...
+```
+
+看到这条警告就装一下 Noto Sans CJK SC（免费）：
+
+```bash
+# macOS
+brew install --cask font-noto-sans-cjk
+
+# Debian / Ubuntu
+sudo apt install fonts-noto-cjk
+
+# Windows / 其它
+# 从 https://github.com/notofonts/noto-cjk/releases 下载 NotoSansCJKsc 后双击安装
+```
+
+装完重新编译即可，不用改任何配置（`auto` 会自动发现）。也可以显式写死 `fontset=noto`。
+
+想用别的字体：
+
+```latex
+\kuoliesetcjkfont{霞鹜文楷}                       % 按字体族名
+\kuoliesetcjkfont{LXGWWenKai-Regular.ttf}[BoldFont=LXGWWenKai-Bold.ttf]
+```
+
+---
+
+## 目录结构
+
+```
+kuolie.cls            排版引擎。一般不用动。
+main.tex              样式配置 + 装配。★ 改样式只看这个文件
+example-cute.tex      第二种风格示例,复用同一份 content/
+content/
+  profile.tex           身份卡数据
+  oshi.tex              我推和坑
+  ships.tex             关于 CP
+  notes.tex             碎碎念
+fonts/                随仓库分发的西文字体(OFL / Apache 2.0)
+assets/
+  avatar-sample.tex     占位头像的 TikZ 源码
+  avatar-sample.pdf     编译产物,已提交,换成你自己的图即可
+docs/                 README 里的预览图
+```
+
+---
+
+## `\kuoliesetup` 选项
+
+全部写在 `main.tex` 里。选项块中间**可以留空行**分组。
+
+| 键 | 取值 | 默认 | 说明 |
+| --- | --- | --- | --- |
+| `accent` | `emerald` `skyblue` `red` `pink` `orange` `nephritis` `concrete` `darknight` `sakura` `lavender` `cyan` `mint` | `skyblue` | 强调色。前八个是 Awesome-CV 原配色 |
+| `accenthex` | 六位十六进制，如 `EF4089` | — | 自定义强调色，**不要写 `#`**。给了就覆盖 `accent` |
+| `fontset` | `auto` `noto` `sourcehan` `notosc` `fandol` `macos` `windows` | `auto` | 中文字体，见上一节 |
+| `paper` | `a4` `letter` `square` `poster` | `a4` | `square` 是 176×220mm（4:5），发微博 / 小红书不会被裁 |
+| `cardstyle` | `flat` `soft` | `flat` | `flat` 纯白极简；`soft` 淡色底 + 白色圆角卡 |
+| `divider` | `rule` `dots` `hearts` `none` | `rule` | 小标题右侧的填充线 |
+| `dividertint` | 任意颜色名 | `kuolie-graytext` | 分隔线颜色 |
+| `columns` | 整数 | `2` | `pairlist` 的栏数 |
+| `highlight` | 整数 | `2` | 小标题前几个字用强调色。`0` = 都不用，`99` = 全部 |
+| `titlespread` | 小数 | `0.06` | 小标题字距（em）。`0` = 不加 |
+| `columnsep` | 长度 | `2.2em` | 双栏间距 |
+| `pairdelim` | 任意代码 | 浅灰间隔点 | `\pair` 的键值分隔符 |
+| `tagsep` | 任意代码 | 浅灰竖线 | 标签之间的「｜」 |
+
+---
+
+## 内容宏
+
+### 身份卡（`content/profile.tex`）
+
+```latex
+\name{示例名字}
+\alias{（可以叫我小示｜本质是一团占位符）}
+
+\profileline[\faUser]{天秤座, 大学在读, INFP}
+\profileline[\faHeart]{小裙子爱好者, 甜品无限激推, 废话文学}
+
+\makekuolieheader[L]        % [L] 左 / [C] 居中(默认) / [R] 右
+```
+
+- `\profileline` 的内容用**英文逗号**分隔，「｜」分隔符自动加，别自己打。
+- 中括号里是图标，可省略。图标名见 [fontawesome5 手册](https://mirrors.ctan.org/fonts/fontawesome5/doc/fontawesome5.pdf)，常用的有 `\faUser` `\faHeart` `\faStar` `\faInfoCircle` `\faCommentDots` `\faGamepad` `\faMusic` `\faPalette`。
+
+头像写在 `main.tex` 里：
+
+```latex
+\photo[circle, noedge, left]{assets/avatar-sample.pdf}
+% 形状 circle|rectangle,描边 edge|noedge,位置 left|right
+```
+
+支持 JPG / PNG / PDF。头像会跟着纸张大小自动缩放。
+
+### 双栏列表
+
+```latex
+\kuoliesection{我推和坑}
+\begin{pairlist}
+  \pair{偶像梦幻祭}{占位角色一}
+  \pair{明日方舟}{占位角色五 / 占位角色六}
+  \pair{只写作品名}{}
+\end{pairlist}
+\kuolienote{这里是小字附注。}
+```
+
+- **按列填充**：左栏先填满再溢到右栏（7 项 → 左 4 右 3），和手写扩列图的读法一致。
+- `\pair` 之间**不要留空行**。
+- `\kuolietags{甲, 乙, 丙}` 可以在附注里生成「甲｜乙｜丙」这样的标签串。
+
+### 碎碎念
+
+```latex
+\kuoliesection{一些碎碎念}
+\begin{kuolieitems}
+  \item \kuoliehl{这句话会用强调色加粗}，后面是正常文字。
+  \item 第二条。
+\end{kuolieitems}
+\kuolieclosing{好啦我说完了!! 感谢您的阅读}
+```
+
+### 页脚（可选）
+
+```latex
+\makekuoliefooter{左}{中}{右}
+```
+
+---
+
+## 导出成图片
+
+扩列图一般是当图发的。PDF 转 PNG：
+
+```bash
+# ImageMagick
+magick -density 300 main.pdf -quality 95 main.png
+
+# poppler
+pdftoppm -r 300 -png main.pdf main
+
+# macOS 自带,不用装东西
+sips -s format png -Z 2000 main.pdf --out main.png
+```
+
+配 `paper=square` 用效果最好。
+
+---
+
+## 常见问题
+
+**排到两页了怎么办**
+内容太多。按效果排序：换 `paper=a4`（版心更大）、精简 `\pair` 条目、`columns=3`、把 `\kuolienote` 写短一点。
+
+**编译报错说要 XeTeX**
+用了 pdfLaTeX 或 LuaLaTeX。改用 XeLaTeX。
+
+**中文变成空白方块**
+落到 Fandol 保底了，而且用到了它没有的字（通常是日文汉字）。装 Noto Sans CJK SC，见上文。
+
+**`\profileline` 里想用逗号本身**
+用花括号裹起来：`\profileline{{甲, 乙}, 丙}` 会输出两项。
+
+**小标题「关于CP」着色位置不对**
+`highlight` 是按**字符数**算的，中英混排时数一下实际字符。`关于CP` 的前 2 字是「关于」，正好。
+
+---
+
+## 致谢与许可
+
+排版语言来自 [posquit0/Awesome-CV](https://github.com/posquit0/Awesome-CV)（MIT）。信息结构来自中文互联网上流传已久的手写扩列图格式。
+
+模板代码 MIT 许可。`fonts/` 下的字体各自适用 OFL 1.1 / Apache 2.0，详见 [LICENSE](LICENSE)。

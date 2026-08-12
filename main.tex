@@ -1,0 +1,59 @@
+% !TeX program = xelatex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  扩列图 / kuolie -- 这是你唯一需要改样式的文件
+%
+%  编译:  latexmk main.tex        (或者  xelatex main.tex)
+%  必须用 XeLaTeX。Overleaf 里请把编译器设为 XeLaTeX。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{kuolie}
+
+\kuoliesetup{
+  %-- 强调色 ----------------------------------------------------------------
+  % 内置: emerald / skyblue / red / pink / orange / nephritis / concrete
+  %       darknight / sakura / lavender / cyan / mint
+  accent      = skyblue,
+  % 想用自定义颜色就改用下面这行(六位十六进制,不要写 #):
+  % accenthex = EF4089,
+
+  %-- 中文字体 --------------------------------------------------------------
+  % auto      自动探测,优先 Noto Sans CJK SC,最后退回 TeX Live 自带的 Fandol
+  % noto      Noto Sans CJK SC   (推荐,免费跨平台,Overleaf 自带)
+  % sourcehan Source Han Sans SC (思源黑体,与 Noto 同源)
+  % fandol    TeX Live 自带,零安装,但缺日文汉字(如「込」「樋」)
+  % macos     PingFang SC        (仅 macOS)
+  % windows   Microsoft YaHei    (仅 Windows)
+  fontset     = auto,
+
+  %-- 版式 ------------------------------------------------------------------
+  paper       = a4,        % a4 / letter / square(4:5 社交平台方图) / poster
+  cardstyle   = flat,      % flat 纯白极简 / soft 淡色底 + 白色圆角卡
+  divider     = rule,      % rule 细线(awesome-cv 风) / dots / hearts / none
+  columns     = 2,         % pairlist 的栏数
+  highlight   = 2,         % 小标题前几个字用强调色(0 = 都不用)
+  titlespread = 0.06,      % 小标题字距,0 = 不加
+
+  % columnsep = 2.2em,     % 双栏间距
+  % pairdelim = {\,{\color{kuolie-lighttext}\textperiodcentered}\,},
+  % tagsep    = {\,{\color{kuolie-hairline}\textbar}\,},
+}
+
+%-- 头像(可选) --------------------------------------------------------------
+% 选项: circle|rectangle, edge|noedge, left|right
+\photo[circle, noedge, left]{assets/avatar-sample.pdf}
+
+\begin{document}
+
+\input{content/profile}
+
+\kuoliesection{我推和坑}
+\input{content/oshi}
+
+\kuoliesection{关于CP}
+\input{content/ships}
+
+\kuoliesection{一些碎碎念}
+\input{content/notes}
+
+\makekuoliefooter{}{}{}
+
+\end{document}

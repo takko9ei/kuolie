@@ -1,0 +1,19 @@
+# LaTeX build products
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+*.run.xml
+*.bcf
+
+# Generated PDFs -- keep them out of the repo except the committed avatar
+# placeholder and the README previews.
+*.pdf
+!assets/avatar-sample.pdf
+
+# macOS
+.DS_Store

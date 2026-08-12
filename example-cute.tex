@@ -1,0 +1,35 @@
+% !TeX program = xelatex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  第二种风格示例:社交平台方图 + 淡色卡片 + 心形分隔线
+%
+%  注意:content/ 下的数据文件一个字都没改,只换了 \kuoliesetup。
+%  这就是这个模板的分离方式 —— 内容和样式互不知情。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{kuolie}
+
+\kuoliesetup{
+  accent      = sakura,
+  paper       = square,   % 4:5,直接发微博 / 小红书不会被裁
+  cardstyle   = soft,     % 淡色底 + 白色圆角卡
+  divider     = hearts,
+  columns     = 2,
+  highlight   = 2,
+  titlespread = 0.08,
+}
+
+\photo[circle, noedge, left]{assets/avatar-sample.pdf}
+
+\begin{document}
+
+\input{content/profile}
+
+\kuoliesection{我推和坑}
+\input{content/oshi}
+
+\kuoliesection{关于CP}
+\input{content/ships}
+
+\kuoliesection{一些碎碎念}
+\input{content/notes}
+
+\end{document}
