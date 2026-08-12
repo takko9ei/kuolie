@@ -1,23 +1,32 @@
 % !TeX program = xelatex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  第二种风格示例:社交平台方图 + 淡色卡片 + 心形分隔线
+%  第二种风格示例:淡色底 + 白色圆角卡 + 心形分隔线
 %
 %  注意:content/ 下的数据文件一个字都没改,只换了 \kuoliesetup。
 %  这就是这个模板的分离方式 —— 内容和样式互不知情。
+%
+%  这里用 a4 而不是 square:当前内容量塞不进 176x220mm 的方图。
+%  内容再精简些的话把 paper 换成 square 即可。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass{kuolie}
 
 \kuoliesetup{
   accent      = sakura,
-  paper       = square,   % 4:5,直接发微博 / 小红书不会被裁
+  paper       = a4,
   cardstyle   = soft,     % 淡色底 + 白色圆角卡
   divider     = hearts,
   columns     = 2,
   highlight   = 2,
   titlespread = 0.08,
+
+  % soft 的白色圆角卡比 flat 多吃掉约 11mm 竖向空间,所以这里排得比 main.tex 紧。
+  sectionsep  = 2.6mm,
+  contentsep  = 1.8mm,
+  pairsep     = 1.1mm,
+  itemsep     = 0.9mm,
 }
 
-\photo[circle, noedge, left]{assets/avatar-sample.pdf}
+% \photo[circle, noedge, left]{assets/avatar.jpg}
 
 \begin{document}
 
@@ -28,6 +37,12 @@
 
 \kuoliesection{关于CP}
 \input{content/ships}
+
+\kuoliesection{关于音乐}
+\input{content/music}
+
+\kuoliesection{关于观鸟}
+\input{content/birding}
 
 \kuoliesection{一些碎碎念}
 \input{content/notes}

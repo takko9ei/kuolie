@@ -233,30 +233,50 @@
 \newcommand*{\kuoliebodyfont}{\normalfont}
 \newcommand*{\kuoliebodyfontlight}{\normalfont\fontseries{l}\selectfont}
 
+% Baseline skips are absolute points, never "Nem".
+%
+% In \fontsize{<size>}{<skip>} the em of <skip> is measured in the font that is
+% still current, i.e. the OUTER one -- not the size being selected. Writing
+% 1.5em here gave every element the same ~16pt leading regardless of its font
+% size, so the 8.8pt tag rows ended up at 1.87x leading while the 10pt entry
+% rows sat at 1.48x, and the block looked unglued from the rest of the page.
+% Spelling the skips out keeps the ratios visible and intentional.
+%
+%   element        size     skip     ratio
+%   name           20.0pt   24pt     1.20   display sizes want tight leading
+%   alias           9.5pt   13pt     1.37
+%   profile row     8.8pt   13.2pt   1.50   a dense tag block
+%   section title  15.0pt   17pt     1.13
+%   pair key/value 10.0pt   14.5pt   1.45
+%   note            8.6pt   13pt     1.51   wraps, so a touch looser
+%   item            9.6pt   14.5pt   1.51
+%   closing        11.5pt   15pt     1.30
+%   footer          8.0pt   10pt     1.25
+%
 % Latin runs in the name pick up Roboto (Awesome-CV's display face); CJK runs
 % stay on the CJK family, which is what you want for a Chinese nickname.
 \newcommand*{\kuolie@namestyle}[1]%
-  {{\fontsize{30pt}{1em}\kuoliedisplayfont\bfseries\color{kuolie-text}#1}}
+  {{\fontsize{20pt}{24pt}\kuoliedisplayfont\bfseries\color{kuolie-text}#1}}
 \newcommand*{\kuolie@aliasstyle}[1]%
-  {{\fontsize{9.5pt}{1.25em}\kuoliebodyfontlight\color{kuolie-lighttext}#1}}
+  {{\fontsize{9.5pt}{13pt}\kuoliebodyfontlight\color{kuolie-lighttext}#1}}
 \newcommand*{\kuolie@profilestyle}[1]%
-  {{\fontsize{8.8pt}{1.5em}\kuoliebodyfont\color{kuolie-graytext}#1}}
+  {{\fontsize{8.8pt}{13.2pt}\kuoliebodyfont\color{kuolie-graytext}#1}}
 \newcommand*{\kuolie@iconstyle}[1]%
   {{\color{kuolie-accent}#1}}
 \newcommand*{\kuolie@sectionstyle}[1]%
-  {{\fontsize{15pt}{1em}\kuoliebodyfont\bfseries#1}}
+  {{\fontsize{15pt}{17pt}\kuoliebodyfont\bfseries#1}}
 \newcommand*{\kuolie@pairkeystyle}[1]%
-  {{\fontsize{10pt}{1.35em}\kuoliebodyfont\bfseries\color{kuolie-darktext}#1}}
+  {{\fontsize{10pt}{14.5pt}\kuoliebodyfont\bfseries\color{kuolie-darktext}#1}}
 \newcommand*{\kuolie@pairvalstyle}[1]%
-  {{\fontsize{10pt}{1.35em}\kuoliebodyfontlight\color{kuolie-text}#1}}
+  {{\fontsize{10pt}{14.5pt}\kuoliebodyfontlight\color{kuolie-text}#1}}
 \newcommand*{\kuolie@notestyle}[1]%
-  {{\fontsize{8.6pt}{1.45em}\kuoliebodyfontlight\color{kuolie-lighttext}#1}}
+  {{\fontsize{8.6pt}{13pt}\kuoliebodyfontlight\color{kuolie-lighttext}#1}}
 \newcommand*{\kuolie@itemstyle}%
-  {\fontsize{9.6pt}{1.5em}\kuoliebodyfontlight\color{kuolie-text}}
+  {\fontsize{9.6pt}{14.5pt}\kuoliebodyfontlight\color{kuolie-text}}
 \newcommand*{\kuolie@closingstyle}[1]%
-  {{\fontsize{11.5pt}{1.4em}\kuoliebodyfont\color{kuolie-accent}#1}}
+  {{\fontsize{11.5pt}{15pt}\kuoliebodyfont\color{kuolie-accent}#1}}
 \newcommand*{\kuolie@footerstyle}[1]%
-  {{\fontsize{8pt}{1em}\kuoliebodyfontlight\color{kuolie-lighttext}#1}}
+  {{\fontsize{8pt}{10pt}\kuoliebodyfontlight\color{kuolie-lighttext}#1}}
 
 % Inline helper: emphasise a phrase inside body text.
 \newcommand*{\kuoliehl}[1]{{\bfseries\color{kuolie-accent}#1}}
@@ -373,6 +393,12 @@
     highlight   .int_set:N = \l_kuolie_highlight_int ,
     titlespread .fp_set:N  = \l_kuolie_spread_fp ,
     columnsep   .code:n = { \setlength{\kuolie@colsep}{#1} } ,
+    % Vertical rhythm. Shave these when the card runs a few millimetres over
+    % one page -- that is by far the most common thing you will need to tune.
+    sectionsep  .code:n = { \renewcommand{\kuolie@sectiontopskip}{#1} } ,
+    contentsep  .code:n = { \renewcommand{\kuolie@contenttopskip}{#1} } ,
+    pairsep     .code:n = { \renewcommand{\kuolie@pairsep}{#1} } ,
+    itemsep     .code:n = { \renewcommand{\kuolie@itemsep}{#1} } ,
     pairdelim   .code:n = { \renewcommand{\kuoliepairdelim}{#1} } ,
     tagsep      .code:n = { \renewcommand{\kuoliesep}{#1} } ,
   }
@@ -523,7 +549,7 @@
       {
         \bool_if:NTF \l_kuolie_firstrow_bool
           { \bool_set_false:N \l_kuolie_firstrow_bool }
-          { \\[0.9mm] }
+          { \\[0.6mm] }
         \kuolie_profile_row:nn ##1
       }
   }

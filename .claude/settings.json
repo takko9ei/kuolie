@@ -63,7 +63,18 @@
       "Bash(sips -s format png -Z 800 plcheck.pdf --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/pl.png)",
       "Bash(rm -f plcheck.* main.pdf example-cute.pdf *.aux *.log *.fls *.fdb_latexmk *.xdv)",
       "Bash(latexmk)",
-      "Bash(cd /Users/litk/Documents/Coding-Workplace/kuolie *)"
+      "Bash(cd /Users/litk/Documents/Coding-Workplace/kuolie *)",
+      "Bash(sips -s format png -Z 1400 main.pdf --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/n-a4.png)",
+      "Bash(sips -s format png -Z 1300 example-cute.pdf --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/n-sq.png)",
+      "Bash(xelatex -interaction=nonstopmode probe.tex)",
+      "Bash(rm -f probe.*)",
+      "Bash(sips -s format png -Z 1400 main.pdf --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/fix-a4.png)",
+      "Bash(latexmk -quiet)",
+      "Bash(sips -s format png -Z 1500 main.pdf --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/r1.png)",
+      "Bash(xelatex -interaction=nonstopmode fandolcheck.tex)",
+      "Bash(grep -oE \"no .{1,2} \\\\\\(U\\\\+[0-9A-F]+\\\\\\)\")",
+      "Bash(sips -s format png -Z 1500 main.pdf --out docs/preview-flat.png)",
+      "Bash(sips -s format png -Z 1500 example-cute.pdf --out docs/preview-soft.png)"
     ],
     "additionalDirectories": [
       "/Users/litk/Documents/Coding-Workplace/kuolie/assets",

@@ -32,14 +32,22 @@
   highlight   = 2,         % 小标题前几个字用强调色(0 = 都不用)
   titlespread = 0.06,      % 小标题字距,0 = 不加
 
+  %-- 竖向节奏 --------------------------------------------------------------
+  % 排到两页时先动这几个,每项调小 0.5mm 通常就够了。
+  sectionsep  = 3.4mm,     % 小标题上方留白(默认 4.2mm)
+  % contentsep = 2.4mm,    % 小标题到内容
+  % pairsep    = 1.5mm,    % 双栏条目行距
+  % itemsep    = 1.1mm,    % 列表条目行距
+
   % columnsep = 2.2em,     % 双栏间距
   % pairdelim = {\,{\color{kuolie-lighttext}\textperiodcentered}\,},
   % tagsep    = {\,{\color{kuolie-hairline}\textbar}\,},
 }
 
-%-- 头像(可选) --------------------------------------------------------------
+%-- 头像(可选,默认不放) ------------------------------------------------------
+% 放一张你自己的图(JPG / PNG / PDF 都行)进来,取消下面这行的注释即可。
 % 选项: circle|rectangle, edge|noedge, left|right
-\photo[circle, noedge, left]{assets/avatar-sample.pdf}
+% \photo[circle, noedge, left]{assets/avatar.jpg}
 
 \begin{document}
 
@@ -50,6 +58,12 @@
 
 \kuoliesection{关于CP}
 \input{content/ships}
+
+\kuoliesection{关于音乐}
+\input{content/music}
+
+\kuoliesection{关于观鸟}
+\input{content/birding}
 
 \kuoliesection{一些碎碎念}
 \input{content/notes}

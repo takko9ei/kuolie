@@ -4,9 +4,9 @@
 
 内容和样式彻底分开——`content/` 下是纯数据，换风格一个字都不用改。
 
-| `paper=a4, cardstyle=flat, divider=rule` | `paper=square, cardstyle=soft, divider=hearts` |
+| `cardstyle=flat, divider=rule, accent=skyblue` | `cardstyle=soft, divider=hearts, accent=sakura` |
 | :--: | :--: |
-| ![A4 预览](docs/preview-a4.png) | ![方图预览](docs/preview-square.png) |
+| ![极简预览](docs/preview-flat.png) | ![淡色卡预览](docs/preview-soft.png) |
 
 上面两张图用的是**同一份** `content/`，区别只有 `\kuoliesetup` 里的几个键。
 
@@ -99,13 +99,12 @@ main.tex              样式配置 + 装配。★ 改样式只看这个文件
 example-cute.tex      第二种风格示例,复用同一份 content/
 content/
   profile.tex           身份卡数据
-  oshi.tex              我推和坑
-  ships.tex             关于 CP
-  notes.tex             碎碎念
+  oshi.tex              我推和坑     (双栏 pairlist)
+  ships.tex             关于 CP      (双栏 pairlist)
+  music.tex             关于音乐     (通栏列表,乐队名标色)
+  birding.tex           关于观鸟     (通栏列表)
+  notes.tex             碎碎念       (通栏列表)
 fonts/                随仓库分发的西文字体(OFL / Apache 2.0)
-assets/
-  avatar-sample.tex     占位头像的 TikZ 源码
-  avatar-sample.pdf     编译产物,已提交,换成你自己的图即可
 docs/                 README 里的预览图
 ```
 
@@ -130,6 +129,12 @@ docs/                 README 里的预览图
 | `columnsep` | 长度 | `2.2em` | 双栏间距 |
 | `pairdelim` | 任意代码 | 浅灰间隔点 | `\pair` 的键值分隔符 |
 | `tagsep` | 任意代码 | 浅灰竖线 | 标签之间的「｜」 |
+| `sectionsep` | 长度 | `4.2mm` | 小标题上方留白 |
+| `contentsep` | 长度 | `2.4mm` | 小标题到内容 |
+| `pairsep` | 长度 | `1.5mm` | 双栏条目行距 |
+| `itemsep` | 长度 | `1.1mm` | 列表条目行距 |
+
+最后四个是**竖向节奏**旋钮，排到两页时先动它们。
 
 ---
 
@@ -138,11 +143,11 @@ docs/                 README 里的预览图
 ### 身份卡（`content/profile.tex`）
 
 ```latex
-\name{示例名字}
-\alias{（可以叫我小示｜本质是一团占位符）}
+\name{雨迹 / 远环蚓}
+\alias{可以叫我老雨 / 蚯蚓 / 土泥棒以及各种变体（？}
 
-\profileline[\faUser]{天秤座, 大学在读, INFP}
-\profileline[\faHeart]{小裙子爱好者, 甜品无限激推, 废话文学}
+\profileline[\faUser]{双鱼座, 大学在读, inxj}
+\profileline[\faHeart]{观鸟爱好者, 画画低手, sf 系漫画爱好者}
 
 \makekuolieheader[L]        % [L] 左 / [C] 居中(默认) / [R] 右
 ```
@@ -150,22 +155,22 @@ docs/                 README 里的预览图
 - `\profileline` 的内容用**英文逗号**分隔，「｜」分隔符自动加，别自己打。
 - 中括号里是图标，可省略。图标名见 [fontawesome5 手册](https://mirrors.ctan.org/fonts/fontawesome5/doc/fontawesome5.pdf)，常用的有 `\faUser` `\faHeart` `\faStar` `\faInfoCircle` `\faCommentDots` `\faGamepad` `\faMusic` `\faPalette`。
 
-头像写在 `main.tex` 里：
+头像默认不放。想放的话，把图丢进仓库，然后取消 `main.tex` 里那行的注释：
 
 ```latex
-\photo[circle, noedge, left]{assets/avatar-sample.pdf}
+\photo[circle, noedge, left]{assets/avatar.jpg}
 % 形状 circle|rectangle,描边 edge|noedge,位置 left|right
 ```
 
-支持 JPG / PNG / PDF。头像会跟着纸张大小自动缩放。
+支持 JPG / PNG / PDF，会占掉头部约四分之一宽度并跟着纸张大小自动缩放。
 
 ### 双栏列表
 
 ```latex
 \kuoliesection{我推和坑}
 \begin{pairlist}
-  \pair{偶像梦幻祭}{占位角色一}
-  \pair{明日方舟}{占位角色五 / 占位角色六}
+  \pair{摇曳百合}{船见结衣}
+  \pair{金牌得主}{依实依 / 光祈}
   \pair{只写作品名}{}
 \end{pairlist}
 \kuolienote{这里是小字附注。}
@@ -209,14 +214,19 @@ pdftoppm -r 300 -png main.pdf main
 sips -s format png -Z 2000 main.pdf --out main.png
 ```
 
-配 `paper=square` 用效果最好。
+内容不多的话配 `paper=square`（4:5）效果最好，发出去不会被裁。
 
 ---
 
 ## 常见问题
 
 **排到两页了怎么办**
-内容太多。按效果排序：换 `paper=a4`（版心更大）、精简 `\pair` 条目、`columns=3`、把 `\kuolienote` 写短一点。
+按效果排序：
+
+1. 调竖向节奏 —— `sectionsep=3.4mm, contentsep=2.0mm, pairsep=1.2mm, itemsep=0.9mm`，通常能省下 10mm 以上。仓库里的 `main.tex` 和 `example-cute.tex` 就是这么塞进一页的。
+2. 换 `paper=a4`（版心最大）。`square` 只够放比较精简的内容——本仓库示例这个内容量就塞不进方图。
+3. `cardstyle=flat`：`soft` 的圆角卡会多吃掉约 11mm。
+4. 再不行就精简 `\pair` 条目 / 把 `\kuolienote` 写短一点 / `columns=3`。
 
 **编译报错说要 XeTeX**
 用了 pdfLaTeX 或 LuaLaTeX。改用 XeLaTeX。
