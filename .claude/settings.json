@@ -76,7 +76,14 @@
       "Bash(sips -s format png -Z 1500 main.pdf --out docs/preview-flat.png)",
       "Bash(sips -s format png -Z 1500 example-cute.pdf --out docs/preview-soft.png)",
       "Bash(sips -s format png -Z 2400 main.pdf --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/hi.png)",
-      "Bash(sips --cropToHeightWidth 420 1900 --cropOffset 100 0 /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/hi.png --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/hdr.png)"
+      "Bash(sips --cropToHeightWidth 420 1900 --cropOffset 100 0 /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/hi.png --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/hdr.png)",
+      "Bash(xelatex -interaction=nonstopmode fc.tex)",
+      "Bash(cp /Users/litk/Documents/Coding-Workplace/kuolie/latexmkrc /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/clonetest/)",
+      "Bash(rm -f main.aux main.log main.fdb_latexmk main.fls main.xdv main.pdf)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(python3 -)",
+      "Bash(sips -s format png -Z 2000 /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/clonetest/main.pdf --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/edited.png)",
+      "Bash(sips --cropToHeightWidth 480 1600 --cropOffset 1150 0 /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/edited.png --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/edited-crop.png)"
     ],
     "additionalDirectories": [
       "/Users/litk/Documents/Coding-Workplace/kuolie/assets",

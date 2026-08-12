@@ -10,8 +10,10 @@
 *.run.xml
 *.bcf
 
-# Generated PDFs. The README previews live in docs/ as PNGs.
-*.pdf
+# Build products at the repo root only. Deliberately NOT "*.pdf": a PDF used
+# as \photo{assets/avatar.pdf} has to stay tracked, or the project would break
+# for everyone who clones it or imports it into Overleaf.
+/*.pdf
 
 # macOS
 .DS_Store

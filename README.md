@@ -1,8 +1,8 @@
 # kuolie — 扩列图 LaTeX 模板
 
-一个中文扩列图 / 自我介绍卡片的 LaTeX 模板。信息结构照搬手写扩列图（身份卡 + 双栏「作品-角色」列表 + 通栏碎碎念），排版语言借自 [Awesome-CV](https://github.com/posquit0/Awesome-CV)：细线分隔、四级灰度、单一强调色、大量留白。
+中文扩列图（自我介绍卡片）的 LaTeX 模板。版面结构沿用手写扩列图那一套：身份卡、双栏「作品-角色」列表、通栏碎碎念；字体和配色照着 [Awesome-CV](https://github.com/posquit0/Awesome-CV) 做，所以出来是干净的简历风，不是花哨的贴纸风。
 
-内容和样式彻底分开——`content/` 下是纯数据，换风格一个字都不用改。
+样式和内容分开放：`content/` 下只有数据，换风格不用碰它。
 
 | `cardstyle=flat, divider=rule, accent=skyblue` | `cardstyle=soft, divider=hearts, accent=sakura` |
 | :--: | :--: |
@@ -37,7 +37,41 @@ xelatex main.tex
 2. 左上角 `Menu → Compiler` 选 **XeLaTeX**。
 3. `Main document` 选 `main.tex`。
 
-就这样，不需要装任何东西——西文字体在 `fonts/` 里跟着仓库走，中文字体 Overleaf 自带 Noto Sans CJK。
+不需要额外装东西：西文字体在 `fonts/` 里跟着仓库走，中文字体 Overleaf 自带 Noto Sans CJK。
+
+---
+
+## 换成你自己的内容
+
+`content/` 里放的是作者本人的资料，直接覆盖就好。
+
+**改文字**：编辑 `content/` 下那六个文件。每个文件对应一个小节，格式看文件开头的注释。
+
+**增删小节**：小节不是写死在类里的，是在 `main.tex` 里一节一节拼出来的。每节两行——一行标题，一行内容：
+
+```latex
+\input{content/profile}        % 身份卡,不需要 \kuoliesection
+
+\kuoliesection{我推和坑}
+\input{content/oshi}
+
+\kuoliesection{关于音乐}
+\input{content/music}
+```
+
+不想要「关于观鸟」，把它那两行删掉即可（`content/birding.tex` 留着不碍事）。想加一节「关于游戏」，新建 `content/games.tex`，在 `main.tex` 里照样写两行。小节标题随便取，`highlight` 键控制前几个字上强调色。
+
+新小节的正文用哪种排版，看你要什么效果：
+
+| 想要的效果 | 用什么 | 现成例子 |
+| --- | --- | --- |
+| 双栏「作品-角色」 | `pairlist` + `\pair` | `oshi.tex`、`ships.tex` |
+| 通栏条目列表 | `kuolieitems` + `\item` | `music.tex`、`birding.tex`、`notes.tex` |
+| 末尾的小字附注 | `\kuolienote` | `oshi.tex` |
+
+**改样式**：只改 `main.tex` 顶部的 `\kuoliesetup`，见下面的选项表。
+
+用不上第二个示例就把 `example-cute.tex` 删掉，`latexmk` 和 CI 都不会因此报错。
 
 ---
 
@@ -59,9 +93,11 @@ xelatex main.tex
 
 前三个是跨平台的推荐项；4–6 只是「你机器上正好有就用」，模板不依赖它们。无论如何都会落到第 7 项，所以**在任何一台装了 TeX Live 的机器上都能编译成功**。
 
-### ⚠️ Fandol 缺日文汉字
+### Fandol 的字符集有缺口
 
-保底的 Fandol 只覆盖简体中文字符集。ACG 圈的角色名里常有日文汉字，比如「牛**込**里美」的込、「芥**樋**」的樋 —— 这些字在 Fandol 下会变成空白方块，编译时会有警告：
+保底用的 Fandol 只覆盖常用简体字，生僻字和日文汉字都会掉。仓库自带的这份内容在 Fandol 下就少两个字：「再见菈菈」的**菈**（U+83C8）和「鹟科」的**鹟**（U+9E5F），PDF 里是空白。日文汉字同理，比如「牛**込**里美」的込。
+
+落到 Fandol 时编译日志里会有这条：
 
 ```
 Class kuolie Warning: Falling back to the Fandol fonts...
@@ -94,17 +130,17 @@ sudo apt install fonts-noto-cjk
 ## 目录结构
 
 ```
-kuolie.cls            排版引擎。一般不用动。
-main.tex              样式配置 + 装配。★ 改样式只看这个文件
-example-cute.tex      第二种风格示例,复用同一份 content/
+kuolie.cls            排版引擎，一般不用动
+main.tex              样式配置 + 小节装配，改样式只看这个文件
+example-cute.tex      第二种风格示例，复用同一份 content/
 content/
-  profile.tex           身份卡数据
-  oshi.tex              我推和坑     (双栏 pairlist)
-  ships.tex             关于 CP      (双栏 pairlist)
-  music.tex             关于音乐     (通栏列表,乐队名标色)
-  birding.tex           关于观鸟     (通栏列表)
-  notes.tex             碎碎念       (通栏列表)
-fonts/                随仓库分发的西文字体(OFL / Apache 2.0)
+  profile.tex           身份卡
+  oshi.tex              我推和坑     双栏 pairlist
+  ships.tex             关于 CP      双栏 pairlist
+  music.tex             关于音乐     通栏列表，乐队名标色
+  birding.tex           关于观鸟     通栏列表
+  notes.tex             碎碎念       通栏列表
+fonts/                随仓库分发的西文字体，OFL / Apache 2.0
 docs/                 README 里的预览图
 ```
 
@@ -159,14 +195,14 @@ docs/                 README 里的预览图
 - `\profileline` 的内容用**英文逗号**分隔，「｜」分隔符自动加，别自己打。
 - 中括号里是图标，可省略。图标名见 [fontawesome5 手册](https://mirrors.ctan.org/fonts/fontawesome5/doc/fontawesome5.pdf)，常用的有 `\faUser` `\faHeart` `\faStar` `\faInfoCircle` `\faCommentDots` `\faGamepad` `\faMusic` `\faPalette`。
 
-头像默认不放。想放的话，把图丢进仓库，然后取消 `main.tex` 里那行的注释：
+头像默认不放。想放的话，建个 `assets/` 把图丢进去，再取消 `main.tex` 里那行的注释：
 
 ```latex
 \photo[circle, noedge, left]{assets/avatar.jpg}
-% 形状 circle|rectangle,描边 edge|noedge,位置 left|right
+% 形状 circle|rectangle，描边 edge|noedge，位置 left|right
 ```
 
-支持 JPG / PNG / PDF，会占掉头部约四分之一宽度并跟着纸张大小自动缩放。
+支持 JPG / PNG / PDF，会占掉头部约四分之一宽度，并跟着纸张大小缩放。
 
 ### 双栏列表
 
@@ -214,7 +250,7 @@ magick -density 300 main.pdf -quality 95 main.png
 # poppler
 pdftoppm -r 300 -png main.pdf main
 
-# macOS 自带,不用装东西
+# macOS 自带，不用装东西
 sips -s format png -Z 2000 main.pdf --out main.png
 ```
 
@@ -236,7 +272,7 @@ sips -s format png -Z 2000 main.pdf --out main.png
 用了 pdfLaTeX 或 LuaLaTeX。改用 XeLaTeX。
 
 **中文变成空白方块**
-落到 Fandol 保底了，而且用到了它没有的字（通常是日文汉字）。装 Noto Sans CJK SC，见上文。
+落到 Fandol 保底了，而且用到了它没有的字（生僻字或日文汉字）。装 Noto Sans CJK SC，见上文。日志里搜 `Missing character` 能看到具体是哪几个字。
 
 **`\profileline` 里想用逗号本身**
 用花括号裹起来：`\profileline{{甲, 乙}, 丙}` 会输出两项。
