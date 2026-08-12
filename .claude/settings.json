@@ -74,7 +74,9 @@
       "Bash(xelatex -interaction=nonstopmode fandolcheck.tex)",
       "Bash(grep -oE \"no .{1,2} \\\\\\(U\\\\+[0-9A-F]+\\\\\\)\")",
       "Bash(sips -s format png -Z 1500 main.pdf --out docs/preview-flat.png)",
-      "Bash(sips -s format png -Z 1500 example-cute.pdf --out docs/preview-soft.png)"
+      "Bash(sips -s format png -Z 1500 example-cute.pdf --out docs/preview-soft.png)",
+      "Bash(sips -s format png -Z 2400 main.pdf --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/hi.png)",
+      "Bash(sips --cropToHeightWidth 420 1900 --cropOffset 100 0 /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/hi.png --out /private/tmp/claude-501/-Users-litk-Documents-Coding-Workplace-kuolie/f6d2bc34-abc4-4925-a8d1-2b4b0ef69bd4/scratchpad/hdr.png)"
     ],
     "additionalDirectories": [
       "/Users/litk/Documents/Coding-Workplace/kuolie/assets",

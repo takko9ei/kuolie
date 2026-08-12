@@ -133,8 +133,12 @@ docs/                 README 里的预览图
 | `contentsep` | 长度 | `2.4mm` | 小标题到内容 |
 | `pairsep` | 长度 | `1.5mm` | 双栏条目行距 |
 | `itemsep` | 长度 | `1.1mm` | 列表条目行距 |
+| `iconwidth` | 长度 | `1.2em` | 身份卡图标的固定框宽 |
+| `iconsep` | 长度 | `0.3em` | 图标到文字的间距 |
 
-最后四个是**竖向节奏**旋钮，排到两页时先动它们。
+`sectionsep` / `contentsep` / `pairsep` / `itemsep` 是**竖向节奏**旋钮，排到两页时先动它们。
+
+`iconwidth` 存在的原因：Font Awesome 的图标不等宽（`\faUser` 是 0.875em，`\faHeart` 是 1.0em），按自然宽度排会让每行文字的起点错开。图标被装进固定宽度的居中盒子里，所以标签块的左边缘是齐的。用了特别宽的图标（比如 `\faGamepad`）就把这个值调大。
 
 ---
 

@@ -80,6 +80,10 @@
 \newcommand{\kuolie@dividerwidth}{0.9pt}
 \newcommand{\kuolie@dividerlift}{1.6pt}
 \newcommand{\kuolie@dividergap}{0.7em}
+% Font Awesome's own fixed-width convention is 1.25em; 1.2em is a hair tighter
+% and still clears every icon used here.
+\newcommand{\kuolie@iconwidth}{1.2em}
+\newcommand{\kuolie@iconsep}{0.3em}
 \newlength{\kuolie@colsep}   \setlength{\kuolie@colsep}{2.2em}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -399,6 +403,8 @@
     contentsep  .code:n = { \renewcommand{\kuolie@contenttopskip}{#1} } ,
     pairsep     .code:n = { \renewcommand{\kuolie@pairsep}{#1} } ,
     itemsep     .code:n = { \renewcommand{\kuolie@itemsep}{#1} } ,
+    iconwidth   .code:n = { \renewcommand{\kuolie@iconwidth}{#1} } ,
+    iconsep     .code:n = { \renewcommand{\kuolie@iconsep}{#1} } ,
     pairdelim   .code:n = { \renewcommand{\kuoliepairdelim}{#1} } ,
     tagsep      .code:n = { \renewcommand{\kuoliesep}{#1} } ,
   }
@@ -533,9 +539,17 @@
 
 \NewDocumentCommand \kuolietags { m } { \kuolie@notestyle{ \kuolie_joinlist:n {#1} } }
 
+% The icon goes in a fixed-width box. Font Awesome glyphs are not monospaced
+% -- \faUser is 0.875em where \faHeart and \faInfoCircle are 1.0em -- so
+% setting them at natural width would start each row's text at a different
+% x and the tag block would look ragged down its left edge.
 \cs_new_protected:Npn \kuolie_profile_row:nn #1#2
   {
-    \tl_if_blank:nF {#1} { \kuolie@iconstyle{#1} \hspace{0.45em} }
+    \tl_if_blank:nF {#1}
+      {
+        \kuolie@iconstyle{ \makebox[\kuolie@iconwidth][c]{#1} }
+        \hspace{\kuolie@iconsep}
+      }
     \kuolie_joinlist:n {#2}
   }
 
