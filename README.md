@@ -2,13 +2,13 @@
 
 中文扩列图（自我介绍卡片）的 LaTeX 模板，用来写干净的扩列条。版面结构参考了一些网上比较常用的扩列条，字体配色来自[Awesome-CV](https://github.com/posquit0/Awesome-CV) 。
 
-样式和内容解耦合：`content/` 下只有数据，换风格在.tex内。
+`content/` 下只有数据，换风格在.tex内。
 
 | `cardstyle=flat, divider=rule, accent=skyblue` | `cardstyle=soft, divider=hearts, accent=sakura` |
 | :--: | :--: |
 | ![极简预览](docs/preview-flat.png) | ![淡色卡预览](docs/preview-soft.png) |
 
-上面两张图用的是**同一份** `content/`，区别只有 `\kuoliesetup` 里的几个键。
+上面两张图用的是**同一份** `content/`，区别是 `\kuoliesetup` 里的几个键。
 
 ---
 
@@ -41,9 +41,9 @@ xelatex main.tex
 
 ## 换成你自己的内容
 
-`content/` 里放的是作者本人的资料，直接覆盖就好。
+`content/` 里放的是作者本人的资料，直接覆盖就好（请同好来找我扩列！
 
-**改文字**：编辑 `content/` 下那六个文件。每个文件对应一个小节，格式看文件开头的注释。
+**改文字**：编辑 `content/` 下面的六个文件。每个文件对应一个小节，格式看文件开头的注释。
 
 **增删小节**：小节是在 `main.tex` 里一节一节拼出来的。每节两行（标题+内容）：
 
@@ -57,7 +57,7 @@ xelatex main.tex
 \input{content/music}
 ```
 
-不想要「关于观鸟」，把那两行删掉（`content/birding.tex` 可以保留）。想加一节「关于游戏」，新建 `content/games.tex`，在 `main.tex` 里照样写两行。小节标题自定，`highlight` 键控制前几个字的强调色。
+不想要「关于观鸟」，把那两行删掉（`content/birding.tex` 可以保留）。如果想加一节「关于游戏」，新建 `content/games.tex`，在 `main.tex` 里照样写两行。小节标题自定，`highlight` 键控制前几个字的强调色。
 
 新小节的正文排版：
 
@@ -198,7 +198,7 @@ docs/                 README 里的预览图
 % 形状 circle|rectangle，描边 edge|noedge，位置 left|right
 ```
 
-支持 JPG / PNG / PDF，会占掉头部约四分之一宽度，并跟着纸张大小缩放。
+支持 JPG / PNG / PDF，会占掉头部约四分之一宽度，并随纸张大小缩放。
 
 ### 双栏列表
 
@@ -237,7 +237,7 @@ docs/                 README 里的预览图
 
 ## 导出成图片
 
-扩列图一般是当图发的。PDF 转 PNG：
+正常人类应该扩列不会发pdf？：PDF 转 PNG：
 
 ```bash
 # ImageMagick
@@ -260,15 +260,15 @@ sips -s format png -Z 2000 main.pdf --out main.png
 按效果排序：
 
 1. 调竖向节奏 —— `sectionsep=3.4mm, contentsep=2.0mm, pairsep=1.2mm, itemsep=0.9mm`。
-2. 换 `paper=a4`（版心最大）。`square` 只够放比较精简的内容。
+2. 换 `paper=a4`。`square` 只够放比较精简的内容。
 3. `cardstyle=flat`：`soft` 的圆角卡会多吃掉约 11mm。
-4. 再不行就精简 `\pair` 条目 / 把 `\kuolienote` 写短一点 / `columns=3`。
+4. 精简 `\pair` 条目 / 把 `\kuolienote` 写短一点 / `columns=3`。
 
 **编译报错说要 XeTeX：**
 用了 pdfLaTeX 或 LuaLaTeX。改用 XeLaTeX。
 
 **中文变成方块：**
-落到 Fandol 保底了，而且用到了它没有的字（生僻字或日文汉字）。装 Noto Sans CJK SC，见上文。日志里搜 `Missing character` 能看到具体是哪几个字。
+落到 Fandol 了，而且用到了没有的字。装 Noto Sans CJK SC，见上文。日志里搜 `Missing character` 能看到具体是哪几个字。
 
 **`\profileline` 里想用逗号本身：**
 用花括号裹起来：`\profileline{{甲, 乙}, 丙}` 会输出两项。
@@ -283,3 +283,7 @@ sips -s format png -Z 2000 main.pdf --out main.png
 排版语言来自 [posquit0/Awesome-CV](https://github.com/posquit0/Awesome-CV)（MIT）。信息结构来自中文互联网上流传已久的手写扩列图格式。
 
 模板代码 MIT 许可。`fonts/` 下的字体各自适用 OFL 1.1 / Apache 2.0，详见 [LICENSE](LICENSE)。
+
+---
+
+## Have fun :)
