@@ -1,8 +1,8 @@
 # kuolie — 扩列图 LaTeX 模板
 
-中文扩列图（自我介绍卡片）的 LaTeX 模板。版面结构沿用手写扩列图那一套：身份卡、双栏「作品-角色」列表、通栏碎碎念；字体和配色照着 [Awesome-CV](https://github.com/posquit0/Awesome-CV) 做，所以出来是干净的简历风，不是花哨的贴纸风。
+中文扩列图（自我介绍卡片）的 LaTeX 模板，用来写干净的扩列条。版面结构参考了一些网上比较常用的扩列条，字体配色来自[Awesome-CV](https://github.com/posquit0/Awesome-CV) 。
 
-样式和内容分开放：`content/` 下只有数据，换风格不用碰它。
+样式和内容解耦合：`content/` 下只有数据，换风格在.tex内。
 
 | `cardstyle=flat, divider=rule, accent=skyblue` | `cardstyle=soft, divider=hearts, accent=sakura` |
 | :--: | :--: |
@@ -37,8 +37,6 @@ xelatex main.tex
 2. 左上角 `Menu → Compiler` 选 **XeLaTeX**。
 3. `Main document` 选 `main.tex`。
 
-不需要额外装东西：西文字体在 `fonts/` 里跟着仓库走，中文字体 Overleaf 自带 Noto Sans CJK。
-
 ---
 
 ## 换成你自己的内容
@@ -47,7 +45,7 @@ xelatex main.tex
 
 **改文字**：编辑 `content/` 下那六个文件。每个文件对应一个小节，格式看文件开头的注释。
 
-**增删小节**：小节不是写死在类里的，是在 `main.tex` 里一节一节拼出来的。每节两行——一行标题，一行内容：
+**增删小节**：小节是在 `main.tex` 里一节一节拼出来的。每节两行（标题+内容）：
 
 ```latex
 \input{content/profile}        % 身份卡,不需要 \kuoliesection
@@ -59,9 +57,9 @@ xelatex main.tex
 \input{content/music}
 ```
 
-不想要「关于观鸟」，把它那两行删掉即可（`content/birding.tex` 留着不碍事）。想加一节「关于游戏」，新建 `content/games.tex`，在 `main.tex` 里照样写两行。小节标题随便取，`highlight` 键控制前几个字上强调色。
+不想要「关于观鸟」，把它那两行删掉即可（`content/birding.tex` 留可以保留）。想加一节「关于游戏」，新建 `content/games.tex`，在 `main.tex` 里照样写两行。小节标题随便取，`highlight` 键控制前几个字上强调色。
 
-新小节的正文用哪种排版，看你要什么效果：
+新小节的正文排版：
 
 | 想要的效果 | 用什么 | 现成例子 |
 | --- | --- | --- |
@@ -75,11 +73,11 @@ xelatex main.tex
 
 ---
 
-## 字体：唯一需要留心的地方
+## 字体
 
-**西文**用 Source Sans 3 和 Roboto，文件就在 `fonts/` 里，按**文件名**加载，不依赖系统安装、不依赖 fontconfig 缓存。这是「克隆下来就能编译」和「Overleaf 直接能用」的原因。
+**西文**用 Source Sans 3 和 Roboto，文件就在 `fonts/` 里，按**文件名**加载，不依赖系统安装、不依赖 fontconfig 缓存。
 
-**中文字体没法打包**（一个完整汉字字体 8–20 MB），所以模板会自己探测。`fontset=auto`（默认）按这个顺序找：
+**中文字体没法打包**（一个完整汉字字体 8–20 MB），模板自动探测。`fontset=auto`（默认）按这个顺序找：
 
 | 顺序 | 字体 | 说明 |
 | --- | --- | --- |
@@ -91,8 +89,6 @@ xelatex main.tex
 | 6 | Hiragino Sans GB | 旧版 macOS |
 | 7 | **Fandol** | TeX Live 自带，零安装，保底 |
 
-前三个是跨平台的推荐项；4–6 只是「你机器上正好有就用」，模板不依赖它们。无论如何都会落到第 7 项，所以**在任何一台装了 TeX Live 的机器上都能编译成功**。
-
 ### Fandol 的字符集有缺口
 
 保底用的 Fandol 只覆盖常用简体字，生僻字和日文汉字都会掉。仓库自带的这份内容在 Fandol 下就少两个字：「再见菈菈」的**菈**（U+83C8）和「鹟科」的**鹟**（U+9E5F），PDF 里是空白。日文汉字同理，比如「牛**込**里美」的込。
@@ -103,7 +99,7 @@ xelatex main.tex
 Class kuolie Warning: Falling back to the Fandol fonts...
 ```
 
-看到这条警告就装一下 Noto Sans CJK SC（免费）：
+看到这条警告就装一下 Noto Sans CJK SC：
 
 ```bash
 # macOS
