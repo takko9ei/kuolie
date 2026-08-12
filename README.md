@@ -1,6 +1,6 @@
 # kuolie — 扩列图 LaTeX 模板
 
-中文扩列图（自我介绍卡片）的 LaTeX 模板，用来写干净的扩列条。版面结构参考了一些网上比较常用的扩列条，字体配色来自[Awesome-CV](https://github.com/posquit0/Awesome-CV) 。
+一个简洁的中文扩列图（自我介绍卡片） LaTeX 模板。版面结构参考了一些网上比较常见的扩列条，字体配色来自[Awesome-CV](https://github.com/posquit0/Awesome-CV) 。
 
 `content/` 下只有数据，换风格在.tex内。
 
@@ -153,6 +153,8 @@ docs/                 README 里的预览图
 | `fontset` | `auto` `noto` `sourcehan` `notosc` `fandol` `macos` `windows` | `auto` | 中文字体，见上一节 |
 | `paper` | `a4` `letter` `square` `poster` | `a4` | `square` 是 176×220mm（4:5） |
 | `cardstyle` | `flat` `soft` | `flat` | `flat` 纯白；`soft` 淡色底 + 白色圆角卡 |
+| `background` | 任意颜色名，或 `none` | 跟随 `cardstyle` | 页面底色。`none` = 不画底，PDF 背景透明 |
+| `backgroundhex` | 六位十六进制 | — | 自定义页面底色，**不要写 `#`** |
 | `divider` | `rule` `dots` `hearts` `none` | `rule` | 小标题右侧的填充线 |
 | `dividertint` | 任意颜色名 | `kuolie-graytext` | 分隔线颜色 |
 | `columns` | 整数 | `2` | `pairlist` 的栏数 |
@@ -251,6 +253,8 @@ sips -s format png -Z 2000 main.pdf --out main.png
 ```
 
 内容不多的话配 `paper=square`（4:5）效果大概会比较好（？
+
+PDF 是**自带白底**的，转出来的 PNG 不会透明。想要透明背景（比如要抠出来自己合成）就设 `background=none`。
 
 ---
 

@@ -359,18 +359,64 @@
       { \ClassError{kuolie}{Unknown~divider~'#1'}{Use~one~of:~rule,~dots,~hearts,~none.} }
   }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Page background
+%
+%  \pagecolor is not enough. With the xetex/dvipdfmx driver a WHITE page
+%  colour emits no fill at all -- it is treated as the default paper colour --
+%  so the PDF page stays transparent and every PDF->PNG conversion inherits
+%  that (sips hands back RGBA with alpha 0 in the margins). Non-white colours
+%  do get drawn, which is why cardstyle=soft looked fine and flat did not.
+%
+%  Painting an explicit rectangle in the shipout background hook always lands
+%  in the page content stream, whatever the colour.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bool_new:N \g_kuolie_bgexplicit_bool
+\bool_new:N \g_kuolie_bgpaint_bool
+\bool_gset_true:N \g_kuolie_bgpaint_bool
+
+% The kernel puts this hook's content in a zero-width hbox whose baseline sits
+% at the top-left corner of the paper -- there is no picture environment, so
+% \put is not available. A rule lifted by -\paperheight hangs from that
+% baseline down over the whole page instead.
+\cs_new_protected:Npn \kuolie@paintbg
+  {
+    \bool_if:NT \g_kuolie_bgpaint_bool
+      {
+        \hbox_overlap_right:n
+          { { \color{kuolie-pagebg}
+              \rule[-\paperheight]{\paperwidth}{\paperheight} } }
+      }
+  }
+
+\cs_new_protected:Npn \kuolie_set_background:n #1
+  {
+    \bool_gset_true:N \g_kuolie_bgexplicit_bool
+    \str_if_eq:nnTF {#1} { none }
+      { \bool_gset_false:N \g_kuolie_bgpaint_bool }
+      {
+        \bool_gset_true:N \g_kuolie_bgpaint_bool
+        \colorlet{kuolie-pagebg}{#1}
+      }
+  }
+
+% cardstyle picks the page colour, but never overrules an explicit
+% background=... no matter which order the two keys appear in.
+\cs_new_protected:Npn \kuolie_cardstyle_bg:n #1
+  { \bool_if:NF \g_kuolie_bgexplicit_bool { \colorlet{kuolie-pagebg}{#1} } }
+
 \cs_new_protected:Npn \kuolie_set_cardstyle:n #1
   {
     \str_case:nnF {#1}
       {
         { flat }
           {
-            \colorlet{kuolie-pagebg}{white}
+            \kuolie_cardstyle_bg:n { white }
             \cs_set:Npn \kuolie@headerwrap ##1 {##1}
           }
         { soft }
           {
-            \colorlet{kuolie-pagebg}{kuolie-accent!7!white}
+            \kuolie_cardstyle_bg:n { kuolie-accent!7!white }
             \cs_set:Npn \kuolie@headerwrap ##1
               {
                 \begin{tcolorbox}[ enhanced, arc=3.2mm,
@@ -393,6 +439,13 @@
     paper       .code:n = { \kuolie_set_paper:n {#1} } ,
     fontset     .code:n = { \kuolie_set_fontset:n {#1} } ,
     cardstyle   .code:n = { \kuolie_set_cardstyle:n {#1} } ,
+    background  .code:n = { \kuolie_set_background:n {#1} } ,
+    backgroundhex .code:n =
+      {
+        \bool_gset_true:N \g_kuolie_bgexplicit_bool
+        \bool_gset_true:N \g_kuolie_bgpaint_bool
+        \definecolor{kuolie-pagebg}{HTML}{#1}
+      } ,
     columns     .int_set:N = \l_kuolie_columns_int ,
     highlight   .int_set:N = \l_kuolie_highlight_int ,
     titlespread .fp_set:N  = \l_kuolie_spread_fp ,
@@ -423,7 +476,7 @@
 
 % Defaults, applied at load time.
 \kuoliesetup{cardstyle=flat, paper=a4, divider=rule, fontset=auto}
-\AtBeginDocument{\pagecolor{kuolie-pagebg}}
+\AddToHook{shipout/background}{\kuolie@paintbg}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Section headings
